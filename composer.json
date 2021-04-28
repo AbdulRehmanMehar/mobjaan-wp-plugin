@@ -1,0 +1,13 @@
+{
+    "name": "abdul_rehman/mobjaan-plugin",
+    "description": "Wordpress plugin for listings and reviews",
+    "type": "project",
+    "license": "GPL",
+    "authors": [
+        {
+            "name": "Abdul Rehman",
+            "email": "mehars.6925@gmail.com"
+        }
+    ],
+    "require": {}
+}
