@@ -4,16 +4,18 @@
  * @package MobjaanPlugin
  */
 
-namespace Mobjaan\Admin;
+namespace Mobjaan\Pages;
 
-class Dashboard {
-    function custom_post_type() {
-        register_post_type( 'listings', ['public' => true, 'label' => 'Listings'] );
+class Admin {
+
+    function register() {
+        add_action( 'init', array( $this, 'custom_post_type' )  );
+        add_action( 'admin_menu', array($this, 'add_admin_pages') );
+        add_filter( 'plugin_action_links_' . PLUGIN_NAME, array($this, 'plugin_link_filter') );
     }
 
-    function enqueue_admin_assets() {
-        wp_enqueue_style( 'mobjaanpluginstyle', plugins_url( '../../assets/css/main.css', __FILE__ ) );
-        wp_enqueue_script('mobjaanpluginscript', plugins_url( '../../assets/js/main.js', __FILE__ ));
+    function custom_post_type() {
+        register_post_type( 'listings', ['public' => true, 'label' => 'Listings'] );
     }
 
     function add_admin_pages() {
@@ -21,7 +23,7 @@ class Dashboard {
     }
 
     function admin_pages_template_index() {
-        require_once plugin_dir_path( __FILE__ ) . '../../templates/admin/index.php';
+        require_once PLUGIN_PATH . 'templates/admin/index.php';
     }
 
     function plugin_link_filter($links) {
