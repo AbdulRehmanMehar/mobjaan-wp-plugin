@@ -18,11 +18,11 @@ defined('ABSPATH') or die('You can\'t access the file.');
 
 $autoload = dirname(__FILE__). '/vendor/autoload.php';
 
-if (!file_exists(dirname(__FILE__). '/vendor/autoload.php')) {  
+if (!file_exists($autoload)) {  
     die ('Problem with Composer Autoload');
 } 
 
-require_once dirname(__FILE__). '/vendor/autoload.php';
+require_once $autoload;
 
 use Mobjaan\Admin\Dashboard as AdminDashboard;
 
