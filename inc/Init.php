@@ -1,12 +1,12 @@
 <?php
-
 /**
  * @package MobjaanPlugin
  */
 
 namespace Mobjaan;
 
-class Init {
+class Init 
+{
 
     /**
      * Loop through the classes and call register method if exists
@@ -14,10 +14,12 @@ class Init {
      */
     static function register_services() 
     {
-        foreach(self::get_services() as $obj) {
+        foreach(self::get_services() as $obj) 
+        {
             $service = self::instantiate($obj);
 
-            if (method_exists($service, 'register')) {
+            if (method_exists($service, 'register')) 
+            {
                 $service->register();
             }
         }
@@ -42,7 +44,8 @@ class Init {
      * @param class $class   class from the serivces array
      * @return class   new instance of the service class...
      */
-    private static function instantiate($class) {
+    private static function instantiate($class) 
+    {
         return new $class();
     }
 

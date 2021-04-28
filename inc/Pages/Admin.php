@@ -1,19 +1,20 @@
 <?php
-
 /**
  * @package MobjaanPlugin
  */
-
 namespace Mobjaan\Pages;
 
-class Admin {
+
+class Admin
+{
 
     /**
      * The bare bone function to add wordpress actions, hooks or filters
      * @param 
      * @return 
      */
-    function register() {
+    function register() 
+    {
         add_action( 'init', array( $this, 'custom_post_type' )  );
         add_action( 'admin_menu', array($this, 'add_admin_pages') );
         add_filter( 'plugin_action_links_' . PLUGIN_NAME, array($this, 'plugin_link_filter') );
@@ -25,7 +26,8 @@ class Admin {
      * @param 
      * @return 
      */
-    function custom_post_type() {
+    function custom_post_type() 
+    {
         register_post_type( 'listings', ['public' => true, 'label' => 'Listings'] );
     }
 
@@ -35,7 +37,8 @@ class Admin {
      * @param 
      * @return 
      */
-    function add_admin_pages() {
+    function add_admin_pages() 
+    {
         add_menu_page( 'Mobjaan Plugin', 'Mobjaan', 'manage_options', 'mobjaan', array($this, 'admin_pages_template_index'), 'dashicons-schedule', 40 );
     }
 
@@ -45,7 +48,8 @@ class Admin {
      * @param 
      * @return 
      */
-    function admin_pages_template_index() {
+    function admin_pages_template_index() 
+    {
         require_once PLUGIN_PATH . 'templates/admin/index.php';
     }
 
@@ -55,11 +59,13 @@ class Admin {
      * @param 
      * @return 
      */
-    function plugin_link_filter($links) {
+    function plugin_link_filter($links)
+    {
         $settings_link = '<a href="admin.php?page=mobjaan">Settings</a>';
         $developer_link = '<a href="https://github.com/AbdulRehmanMehar" target="_blank">Developer?</a>';
 
         array_push($links, $settings_link, $developer_link);
         return $links;
     }
+    
 }
