@@ -9,5 +9,10 @@
             "email": "mehars.6925@gmail.com"
         }
     ],
-    "require": {}
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Mobjaan\\Inc\\": "./inc"
+        }
+    }
 }
