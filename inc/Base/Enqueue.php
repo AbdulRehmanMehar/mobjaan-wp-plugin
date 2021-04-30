@@ -4,6 +4,8 @@
  */
 namespace Mobjaan\Base;
 
+use Mobjaan\Base\Constants;
+
 
 class Enqueue 
 {
@@ -26,8 +28,8 @@ class Enqueue
      */
     function enqueue_admin_assets() 
     {
-        wp_enqueue_style('mobjaanpluginstyle', PLUGIN_URL . 'assets/css/main.css');
-        wp_enqueue_script('mobjaanpluginscript', PLUGIN_URL . 'assets/js/main.js');
+        wp_enqueue_style('mobjaanpluginstyle', Constants::getPluginURL() . 'assets/css/main.css');
+        wp_enqueue_script('mobjaanpluginscript', Constants::getPluginURL() . 'assets/js/main.js');
     }
 
 }

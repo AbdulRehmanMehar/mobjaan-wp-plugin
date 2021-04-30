@@ -4,6 +4,8 @@
  */
 namespace Mobjaan\Pages;
 
+use Mobjaan\Base\Constants;
+
 
 class Admin
 {
@@ -17,7 +19,7 @@ class Admin
     {
         add_action( 'init', array( $this, 'custom_post_type' )  );
         add_action( 'admin_menu', array($this, 'add_admin_pages') );
-        add_filter( 'plugin_action_links_' . PLUGIN_NAME, array($this, 'plugin_link_filter') );
+        add_filter( 'plugin_action_links_' . Constants::getPluginName(), array($this, 'plugin_link_filter') );
     }
 
     /**
@@ -50,7 +52,7 @@ class Admin
      */
     function admin_pages_template_index() 
     {
-        require_once PLUGIN_PATH . 'templates/admin/index.php';
+        require_once Constants::getPluginPath() . 'templates/admin/index.php';
     }
 
     /**
