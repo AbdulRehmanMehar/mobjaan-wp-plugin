@@ -33,8 +33,11 @@ class Init
     private static function get_services() 
     {
         return [
+            Pages\Home::class,
+            Pages\Admin::class,
             Base\Enqueue::class,
-            Pages\Admin::class
+            Base\Templates::class,
+            Base\InjectReviewFields::class,
         ];
     }
 

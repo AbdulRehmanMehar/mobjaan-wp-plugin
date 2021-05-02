@@ -5,10 +5,23 @@
 namespace Mobjaan\Pages;
 
 use Mobjaan\Base\Constants;
-
+use Mobjaan\Api\SettingsApi;
+use Mobjaan\Api\Callbacks\Admin as Callbacks;
 
 class Admin
 {
+
+    private $pages;
+    private $settings;
+    private $sub_pages;
+    private $callbacks;
+
+    function __construct() 
+    {
+        $this->callbacks = new Callbacks();
+        $this->settings = new SettingsApi();
+        $this->initPages();
+    }
 
     /**
      * The bare bone function to add wordpress actions, hooks or filters
@@ -18,8 +31,41 @@ class Admin
     function register() 
     {
         add_action( 'init', array( $this, 'custom_post_type' )  );
-        add_action( 'admin_menu', array($this, 'add_admin_pages') );
+        $this->settings->addPages($this->pages)->withSubPage('Dashboard')->addSubPages($this->sub_pages)->register();
         add_filter( 'plugin_action_links_' . Constants::getPluginName(), array($this, 'plugin_link_filter') );
+    }
+
+    function initPages() {
+        $this->pages = array(
+            array(
+                'page_title' => 'Mobjaan Plugin',
+                'menu_title' => 'Mobjaan',
+                'capability' => 'manage_options',
+                'menu_slug' => 'mobjaan',
+                'callback' => array($this->callbacks, 'adminDashboard'),
+                'icon_url' => 'dashicons-schedule',
+                'position' => 40
+            )
+        );
+
+        $this->sub_pages = array(
+            array(
+                'page_title' => 'Listings',
+                'menu_title' => 'Listings',
+                'capability' => 'manage_options',
+                'menu_slug' => 'mobjaan_listings',
+                'callback' => function() { echo 'listings'; },
+                'parent_slug' => 'mobjaan'
+            ),
+            array(
+                'page_title' => 'Reviews',
+                'menu_title' => 'Reviews',
+                'capability' => 'manage_options',
+                'menu_slug' => 'mobjaan_reviews',
+                'callback' => function() { echo 'reviews'; },
+                'parent_slug' => 'mobjaan'
+            )
+        );
     }
 
     /**
@@ -31,6 +77,25 @@ class Admin
     function custom_post_type() 
     {
         register_post_type( 'listings', ['public' => true, 'label' => 'Listings'] );
+        register_post_type( 'reviews', [
+            'label' => 'Reviews',
+            'public'             => true,
+            'publicly_queryable' => true,
+            'show_ui'            => true,
+            'show_in_menu'       => true,
+            'query_var'          => true,
+            'capability_type'    => 'post',
+            'has_archive'        => false,
+            'hierarchical'       => false,
+            'menu_position'      => 40,
+            'supports'           => array( 'title', 'editor', 'author', 'thumbnail' ),
+            'show_in_rest'       => false,
+            // 'map_meta_cap' => true,
+            // 'capabilities' => array(
+            //     'create_posts' => 'do_not_allow', // false < WP 4.5, credit @Ewout
+            //   ),
+        ] );
+
     }
 
     /**
@@ -39,10 +104,10 @@ class Admin
      * @param 
      * @return 
      */
-    function add_admin_pages() 
-    {
-        add_menu_page( 'Mobjaan Plugin', 'Mobjaan', 'manage_options', 'mobjaan', array($this, 'admin_pages_template_index'), 'dashicons-schedule', 40 );
-    }
+    // function add_admin_pages() 
+    // {
+    //     add_menu_page( 'Mobjaan Plugin', 'Mobjaan', 'manage_options', 'mobjaan', array($this, 'admin_pages_template_index'), 'dashicons-schedule', 40 );
+    // }
 
     /**
      * Admin Index Page
@@ -50,10 +115,10 @@ class Admin
      * @param 
      * @return 
      */
-    function admin_pages_template_index() 
-    {
-        require_once Constants::getPluginPath() . 'templates/admin/index.php';
-    }
+    // function admin_pages_template_index() 
+    // {
+    //     
+    // }
 
     /**
      * Plugin Actions Link
