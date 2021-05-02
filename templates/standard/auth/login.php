@@ -1,0 +1,1 @@
+<a href="<?php echo wp_registration_url(); ?>">Register</a>
