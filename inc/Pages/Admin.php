@@ -53,16 +53,14 @@ class Admin
                 'page_title' => 'Listings',
                 'menu_title' => 'Listings',
                 'capability' => 'manage_options',
-                'menu_slug' => 'mobjaan_listings',
-                'callback' => function() { echo 'listings'; },
+                'menu_slug' => 'edit.php?post_type=listings',
                 'parent_slug' => 'mobjaan'
             ),
             array(
                 'page_title' => 'Reviews',
                 'menu_title' => 'Reviews',
                 'capability' => 'manage_options',
-                'menu_slug' => 'mobjaan_reviews',
-                'callback' => function() { echo 'reviews'; },
+                'menu_slug' => 'edit.php?post_type=reviews',
                 'parent_slug' => 'mobjaan'
             )
         );
@@ -76,7 +74,7 @@ class Admin
      */
     function custom_post_type() 
     {
-        register_post_type( 'listings', ['public' => true, 'label' => 'Listings'] );
+        register_post_type( 'listings', ['public' => true, 'label' => 'Listings', 'show_in_menu' => false] );
         register_post_type( 'reviews', [
             'label' => 'Reviews',
             'public'             => true,
@@ -94,6 +92,7 @@ class Admin
             // 'capabilities' => array(
             //     'create_posts' => 'do_not_allow', // false < WP 4.5, credit @Ewout
             //   ),
+            'show_in_menu' => false
         ] );
 
     }
