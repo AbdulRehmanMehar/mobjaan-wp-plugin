@@ -2,6 +2,7 @@
 /**
  * @package MobjaanPlugin
  */
+
 namespace Mobjaan\Base;
 
 use Mobjaan\Base\Constants;
@@ -19,14 +20,78 @@ class InjectReviewFields
     function register()
     {
         add_action( 'add_meta_boxes', array($this, 'addMetaBoxes') );
+        add_action( 'save_post', array($this, '__mobjaan_review_cpt_listing_custom_meta_box'));
         add_action( 'save_post', array($this, '__mobjaan_review_cpt_rating_custom_meta_box'));
     }
 
-    function addMetaBoxes() {
-        add_meta_box( 'mobjaan-review', 'Rating', array($this, 'ratingField'), $this->post_type);
+    function addMetaBoxes() 
+    {
+        add_meta_box( 'mobjaan-review-listing', 'Lisitng', array($this, 'listingDialogueBox'), $this->post_type);
+        add_meta_box( 'mobjaan-review-rating', 'Rating', array($this, 'ratingDialogueBox'), $this->post_type);
     }
 
-    function ratingField($post)
+    function listingDialogueBox($post)
+    {
+        global $post;
+
+        wp_nonce_field( '__mobjaan_review_cpt_listing_custom_meta_box', 'listing_meta_box_nonce' );
+        $listing_id = get_post_meta( $post->ID, '_review_post_listing_id_key', true );
+        $posts = get_posts( array('post_type' => 'listings') );
+        if (!empty($posts)) 
+        {   
+            echo '<label for="mobjaan_review_cpt_listing_id">Listing: </label>&nbsp; &nbsp; &nbsp; &nbsp;' ;
+            echo '<select id="mobjaan_review_cpt_listing_id" name="mobjaan_review_cpt_listing_id" required="true">';
+            echo '<option value="">None</option>';
+
+            foreach($posts as $p)
+            {
+                echo '<option value="'. $p->ID .'"';
+                if ($p->ID ==  $listing_id ) 
+                {
+                    echo ' selected="selected">';
+                }
+                else
+                {
+                    echo ">";
+                }
+                echo $p->post_title;
+                echo '</option>';
+            }
+
+            echo '</select>';
+        }
+        else 
+        {
+            echo '<b>There is no listing available!</b>';
+        }
+    }
+
+    function __mobjaan_review_cpt_listing_custom_meta_box($post_id)
+    {
+        if (!isset($_POST['listing_meta_box_nonce'])) {
+            return;
+        }
+        
+        if (!wp_verify_nonce( $_POST['listing_meta_box_nonce'], '__mobjaan_review_cpt_listing_custom_meta_box' ))
+        {
+            return;
+        }
+        
+        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+            return;
+        }
+
+        
+        if (!current_user_can( 'edit_post', $post_id )) {
+            return;
+        }
+        
+        if (!isset($_POST['mobjaan_review_cpt_listing_id'])) return;
+        $listing_id_key = $_POST['mobjaan_review_cpt_listing_id'];
+        update_post_meta( $post_id, '_review_post_listing_id_key', $listing_id_key);
+    }
+
+    function ratingDialogueBox($post)
     {
         
         wp_nonce_field('__mobjaan_review_cpt_rating_custom_meta_box', 'rating_meta_box_nonce');
