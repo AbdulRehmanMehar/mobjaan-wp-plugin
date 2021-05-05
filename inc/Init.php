@@ -36,6 +36,7 @@ class Init
             Pages\Home::class,
             Pages\Admin::class,
             Base\Enqueue::class,
+            Base\Taxonomy::class,
             Base\Templates::class,
             Base\InjectReviewFields::class,
         ];

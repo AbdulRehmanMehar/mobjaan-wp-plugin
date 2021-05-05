@@ -62,6 +62,13 @@ class Admin
                 'capability' => 'manage_options',
                 'menu_slug' => 'edit.php?post_type=reviews',
                 'parent_slug' => 'mobjaan'
+            ),
+            array(
+                'page_title' => 'Location',
+                'menu_title' => 'Location',
+                'capability' => 'manage_options',
+                'menu_slug' => 'edit-tags.php?taxonomy=mobjaan_plugin_location_taxonomy',
+                'parent_slug' => 'mobjaan'
             )
         );
     }
@@ -74,7 +81,15 @@ class Admin
      */
     function custom_post_type() 
     {
-        register_post_type( 'listings', ['public' => true, 'label' => 'Listings', 'show_in_menu' => false] );
+        register_post_type( 'listings', [
+            'public' => true, 
+            'label' => 'Listings', 
+            'show_in_menu' => false,
+            'supports'   => array( 'title', 'editor', 'author', 'thumbnail' ),
+            'taxonomies' => array('category', 'post_tag')
+        ]);
+
+
         register_post_type( 'reviews', [
             'label' => 'Reviews',
             'public'             => true,
