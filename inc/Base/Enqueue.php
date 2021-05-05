@@ -41,6 +41,8 @@ class Enqueue
     function enqueue_assets() 
     {
         wp_enqueue_style('mobjaanpluginstyle_bootstrap', Constants::getPluginURL() . 'assets/css/bootstrap.min.css');
+        wp_enqueue_style('mobjaanpluginstyle_ratingcss', Constants::getPluginURL() . 'assets/css/rating.css');
+        wp_enqueue_style('mobjaanpluginstyle_customcss', Constants::getPluginURL() . 'assets/css/client.css');
     }
 
 }
