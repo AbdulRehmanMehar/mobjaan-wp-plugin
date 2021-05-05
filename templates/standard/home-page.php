@@ -19,17 +19,81 @@ get_header();
         <div class="container">
             <div class="row">
 
+                <div class="col-12 text-center my-5">
+                    <h3>partner</h3>
+                    <h6 class="strong-0">Our TOP partners for you!</h6>
+                </div>
+
                 <?php  while(have_posts()):  the_post(); ?>
                     <div class="col-md-4">
                     
-                        <div class="card" style="width: 100%;">
+                        <div class="card my-2 w-100">
                             <?php if(has_post_thumbnail()): ?>
-                                
+                                <div class="bg-img" style="background-image: url('<?php echo get_the_post_thumbnail_url(); ?>')">
+                                    <a class="view" href="<?php echo get_the_post_thumbnail_url(); ?>" target="_blank">&#128065;</a>
+                                </div>
                             <?php endif; ?>
                             <div class="card-body">
-                                <a href="<?php the_permalink(); ?>"><?php the_title( '<h5 class="card-title">', '</h5>'); ?></a>
-                                <p class="card-text"><?php the_excerpt(); ?></p>
-                                <a href="#" class="btn btn-primary">Go somewhere</a>
+                                <?php
+                                    $query = new WP_Query(array(
+                                        'post_type' => 'reviews',
+                                        'meta_key' => '_review_post_listing_id_key',
+                                        'meta_value' => get_the_ID()
+                                    ));
+                                    if ($query->have_posts()) 
+                                    {
+                                        $review_count = 0; 
+                                        $review_sum = 0;
+                                        while ($query->have_posts()) {
+                                            $query->the_post();
+                                            $review_id = get_the_ID();
+                                            $price_value = get_post_meta( $review_id, '_review_post_price_rating_key', true );
+                                            $quality_value = get_post_meta( $review_id, '_review_post_quality_rating_key', true );
+                                            $contact_value = get_post_meta( $review_id, '_review_post_contact_rating_key', true );
+                                            $general_value = get_post_meta( $review_id, '_review_post_general_rating_key', true );
+                                            $avg = (($price_value?$price_value:0) + ($quality_value?$quality_value:0) + ($contact_value?$contact_value:0) + ($general_value?$general_value:0)) / 4;
+                                            $review_sum+= $avg;
+                                            $review_count++;
+                                        }
+
+                                        $review_average = $review_sum / $review_count;
+                                    }
+                                    else
+                                    {
+                                        $review_average = 0;
+                                    }
+                                    wp_reset_postdata();
+                                ?>
+                                <div class="row">
+                                    <div class="col">
+                                        <a href="<?php the_permalink(); ?>"><?php the_title( '<h4 class="mb-0 card-title">', '</h4>'); ?></a>
+                                    </div>
+                                    <div class="col">
+                                        <div class="Stars right" style="--rating: <?php echo $review_average; ?>" aria-label="Rating"></div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <small class="d-block mb-2" style="font-size: 12px;">
+                                            <?php
+                                                $term_list = get_the_terms(get_the_ID(), 'category');
+                                                if ($term_list) 
+                                                {
+                                                    $types ='';
+                                                    foreach($term_list as $term_single) {
+                                                        $types .= ucfirst('<a href="'.$term_single->slug.'">'.$term_single->name.'</a>'). ', ';
+                                                    }
+                                                    $typesz = rtrim($types, ', ');
+                                                    echo $typesz;
+                                                }
+                                            ?>
+                                        </small>
+                                            
+                                        
+
+                                        <p class="card-text"><small><?php echo substr(get_the_excerpt(), 0, 84); ?></small></p>
+                                    </div>
+                                </div>
+                                
                             </div>
                         </div>
 
@@ -44,5 +108,73 @@ get_header();
 
        
     <?php endif; ?>
+    <?php wp_reset_postdata(); ?>
+
+
+    <!-- Other POSTs TYPES -->
+    <?php
+        wp_reset_query();
+        query_posts( array('post_type' => array('post')) );
+    
+        if (have_posts()): 
+    ?>
+
+        <div class="container">
+            <div class="row">
+
+                <div class="col-12 text-center my-5">
+                    <h3>News and Tips</h3>
+                    <h6 class="strong-0">So That You Can Find The Right Craftsmen!</h6>
+                </div>
+
+                <?php  while(have_posts()):  the_post(); ?>
+                    <div class="col-md-4">
+                        <div class="card my-2 w-100">
+
+                            <?php if(has_post_thumbnail()): ?>
+                                <div class="bg-img" style="height: 300px; background-image: url('<?php echo get_the_post_thumbnail_url(); ?>')">
+                                    <a class="view" href="<?php echo get_the_post_thumbnail_url(); ?>" target="_blank">&#128065;</a>
+                                </div>
+                            <?php endif; ?>
+
+                            <div class="card-body p-1 pt-3 px-5">
+                                <div class="row">
+                                    <div class="col-12 text-center mb-1">
+                                        <small class="d-block text-muted" style="font-size: 11px;">
+                                            <?php
+                                                $term_list = get_the_terms(get_the_ID(), 'category');
+                                                if ($term_list) 
+                                                {
+                                                    $types ='';
+                                                    foreach($term_list as $term_single) {
+                                                        $types .= ucfirst('<a href="'.$term_single->slug.'">'.$term_single->name.'</a>'). ', ';
+                                                    }
+                                                    $typesz = rtrim($types, ', ');
+                                                    echo $typesz;
+                                                }
+                                            ?>
+                                        </small>
+                                        <a href="<?php the_permalink(); ?>"><?php the_title( '<h5 class="card-title">', '</h5>'); ?></a>
+                                    </div>
+
+                                    <div class="col"  style="font-size: 11px;">
+                                        <span>&#9819;</span>
+                                        <span><?php the_author(); ?></span>
+                                    </div>
+
+                                    <div class="col"  style="font-size: 11px;">
+                                        <span>&#9819;</span>
+                                        <span><?php the_date(); ?></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                <?php endwhile; ?>
+            </div>
+        </div>
+
+    <?php  endif; ?>
 
 <?php get_footer(); ?>
