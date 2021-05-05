@@ -39,6 +39,7 @@ class Init
             Base\Taxonomy::class,
             Base\Templates::class,
             Base\InjectReviewFields::class,
+            Base\InjectListingFields::class,
         ];
     }
 
