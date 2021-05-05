@@ -103,37 +103,11 @@ class Admin
             'menu_position'      => 40,
             'supports'           => array( 'title', 'editor', 'author', 'thumbnail' ),
             'show_in_rest'       => false,
-            // 'map_meta_cap' => true,
-            // 'capabilities' => array(
-            //     'create_posts' => 'do_not_allow', // false < WP 4.5, credit @Ewout
-            //   ),
             'show_in_menu' => false
         ] );
 
     }
-
-    /**
-     * Adds Menu to the sidebar and links it to the page
-     * Gets called by admin_menu hook
-     * @param 
-     * @return 
-     */
-    // function add_admin_pages() 
-    // {
-    //     add_menu_page( 'Mobjaan Plugin', 'Mobjaan', 'manage_options', 'mobjaan', array($this, 'admin_pages_template_index'), 'dashicons-schedule', 40 );
-    // }
-
-    /**
-     * Admin Index Page
-     * Gets called by add_menu_page() in $this->add_admin_pages
-     * @param 
-     * @return 
-     */
-    // function admin_pages_template_index() 
-    // {
-    //     
-    // }
-
+    
     /**
      * Plugin Actions Link
      * adds setting and developer portal links.... 
