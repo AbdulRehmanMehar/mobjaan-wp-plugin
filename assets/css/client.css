@@ -1,18 +1,22 @@
-.card .bg-img {
+.bg-img {
     width: 100%;
-    height: 230px;
     position: relative;
     background-position: center center;
+    background-repeat: no-repeat;
 }
 
-.card .bg-img .view {
+.card .bg-img {
+    height: 230px;
+}
+
+.bg-img .view {
     position: absolute;
     right: 10px;
     bottom: 10px;
     display: none;
 }
 
-.card .bg-img:hover .view {
+.bg-img:hover .view {
     display: block;
 }
 
