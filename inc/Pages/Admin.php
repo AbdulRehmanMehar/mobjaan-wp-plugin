@@ -31,7 +31,7 @@ class Admin
     function register() 
     {
         add_action( 'init', array( $this, 'custom_post_type' )  );
-        $this->settings->addPages($this->pages)->withSubPage('Dashboard')->addSubPages($this->sub_pages)->register();
+        $this->settings->addPages($this->pages)->withSubPage('Developer')->addSubPages($this->sub_pages)->register();
         add_filter( 'plugin_action_links_' . Constants::getPluginName(), array($this, 'plugin_link_filter') );
     }
 
