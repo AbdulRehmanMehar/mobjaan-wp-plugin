@@ -128,7 +128,7 @@ get_header();
                 </div>
 
                 <?php  while(have_posts()):  the_post(); ?>
-                    <div class="col-md-4">
+                    <div class="col-lg-4 col-md-6 col-sm-12">
                         <div class="card my-2 w-100">
 
                             <?php if(has_post_thumbnail()): ?>
