@@ -23,3 +23,15 @@
 .strong-0 {
     font-weight: 100;
 }
+
+.ex-small {
+    font-size: 12px;
+}
+
+.links-list a.ex-small{
+    font-size: 14px !important;
+}
+
+.links-list a.ex-small i {
+    width: 20px;
+}
