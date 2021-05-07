@@ -5,7 +5,7 @@
 
 */
 
-wp_head();
+get_header();
 the_post();
 
 
@@ -267,43 +267,43 @@ $company_saturday_check_out = get_post_meta( get_the_ID(), '_listings_company_de
                                     <div class="card-body">
                                         <div class="links-list">
                                             <?php if(!empty($phone)): ?>
-                                                <a class="ex-small d-block my-2" target="_blank" href="tel:<?php echo $phone; ?>">
-                                                    <i class="fas fa-phone-volume"></i> Phone
+                                                <a class="ex-small d-block my-2" target="_blank" href="#">
+                                                    <i class="fas fa-phone-volume"></i> <?php echo $phone; ?>
                                                 </a>
                                             <?php endif; ?>
                                             <?php if(!empty($whatsapp)): ?>
-                                                <a class="ex-small d-block my-2" target="_blank" href="<?php echo $whatsapp; ?>">
-                                                    <i class="fab fa-whatsapp"></i> Whatsapp
+                                                <a class="ex-small d-block my-2" target="_blank" href="#">
+                                                    <i class="fab fa-whatsapp"></i> <?php echo $whatsapp; ?>
                                                 </a>
                                             <?php endif; ?>
                                             <?php if(!empty($twitter)): ?>
-                                                <a class="ex-small d-block my-2" target="_blank" href="<?php echo $twitter; ?>">
-                                                    <i class="fab fa-twitter"></i> Twitter
+                                                <a class="ex-small d-block my-2" target="_blank" href="#">
+                                                    <i class="fab fa-twitter"></i> <?php echo $twitter; ?>
                                                 </a>
                                             <?php endif; ?>
                                             <?php if(!empty($facebook)): ?>
-                                                <a class="ex-small d-block my-2" target="_blank" href="<?php echo $facebook; ?>">
-                                                    <i class="fab fa-facebook"></i> Facebook
+                                                <a class="ex-small d-block my-2" target="_blank" href="#">
+                                                    <i class="fab fa-facebook"></i> <?php echo $facebook; ?>
                                                 </a>
                                             <?php endif; ?>
                                             <?php if(!empty($linkedin)): ?>
-                                                <a class="ex-small d-block my-2" target="_blank" href="<?php echo $linkedin; ?>">
-                                                    <i class="fab fa-linkedin"></i> Linkedin
+                                                <a class="ex-small d-block my-2" target="_blank" href="#">
+                                                    <i class="fab fa-linkedin"></i> <?php echo $linkedin; ?>
                                                 </a>
                                             <?php endif; ?>
                                             <?php if(!empty($youtube)): ?>
-                                                <a class="ex-small d-block my-2" target="_blank" href="<?php echo $youtube; ?>">
-                                                    <i class="fab fa-youtube"></i> Youtube
+                                                <a class="ex-small d-block my-2" target="_blank" href="#">
+                                                    <i class="fab fa-youtube"></i> <?php echo $youtube; ?>
                                                 </a>
                                             <?php endif; ?>
                                             <?php if(!empty($insta)): ?>
-                                                <a class="ex-small d-block my-2" target="_blank" href="<?php echo $insta; ?>">
-                                                    <i class="fab fa-instagram"></i> Instagram
+                                                <a class="ex-small d-block my-2" target="_blank" href="#">
+                                                    <i class="fab fa-instagram"></i> <?php echo $insta; ?>
                                                 </a>
                                             <?php endif; ?>
                                             <?php if(!empty($address)): ?>
-                                                <a class="ex-small d-block my-2" target="_blank" href="<?php echo $address; ?>">
-                                                    <i class="fas fa-map-pin"></i> Address
+                                                <a class="ex-small d-block my-2" target="_blank" href="#">
+                                                    <i class="fas fa-map-pin"></i> <?php echo $address; ?>
                                                 </a>
                                             <?php endif; ?>
                                         </div>
@@ -466,4 +466,4 @@ $company_saturday_check_out = get_post_meta( get_the_ID(), '_listings_company_de
     <!-- Write Message Modal -->
 <?php endif; ?>
 
-<?php wp_footer(); ?>
+<?php get_footer(); ?>
