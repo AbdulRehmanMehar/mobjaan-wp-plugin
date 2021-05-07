@@ -151,9 +151,9 @@ $company_saturday_check_out = get_post_meta( get_the_ID(), '_listings_company_de
                                                         <button type="button" class="d-block my-1 btn btn-sm btn-primary" data-toggle="modal" data-target="#add_review_modal">
                                                             Leave a Review
                                                         </button>
-                                                        <button type="button" class="d-block my-1 btn btn-sm btn-primary" data-toggle="modal" data-target="#add_message_modal">
+                                                        <!-- <button type="button" class="d-block my-1 btn btn-sm btn-primary" data-toggle="modal" data-target="#add_message_modal">
                                                             Write a Mesage
-                                                        </button>
+                                                        </button> -->
                                                     <?php else: ?>
                                                         <a href="<?php echo wp_login_url($_SERVER['REQUEST_URI']); ?>" class="d-block btn btn-sm btn-primary">
                                                             Login to leave review or message
