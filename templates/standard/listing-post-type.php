@@ -119,29 +119,48 @@ $company_saturday_check_out = get_post_meta( get_the_ID(), '_listings_company_de
                                         </div>
 
                                         <div class="col-md-6 col-sm-12 text-right ">
-                                            <div class="my-1">
-                                                <div class="Stars" style="--rating: <?php echo $review_average; ?>" aria-label="Rating"></div>
+                                            <div class="row">
+                                                <div class="col-md-8 col-sm-12">
+                                                    <div class="my-1">
+                                                        <div class="Stars" style="--rating: <?php echo $review_average; ?>" aria-label="Rating"></div>
+                                                    </div>
+                                                    <?php if($review_count > 0): ?>
+                                                        <div class="my-1">
+                                                            
+                                                            <span class="badge badge-primary"><?php echo $review_average . ' / 5'; ?></span>
+                                                            <small class="ex-small">
+                                                                
+                                                                <?php
+                                                                    if($review_count == 1) {
+                                                                        echo '1 review';
+                                                                    } else {
+                                                                        echo $review_count . ' reviews';
+                                                                    }
+                                                                ?>
+                                                            </small>
+                                                        </div>
+                                                    <?php else: ?>
+                                                        <div class="my-1">
+                                                            <small class="ex-small">No Review was left.</small>
+                                                        </div>
+                                                    <?php endif; ?>
+                                                </div>
+
+                                                <div class="col-md-4 col-sm-12 text-left">
+                                                    <?php if (is_user_logged_in()): ?>
+                                                        <button type="button" class="d-block my-1 btn btn-sm btn-primary" data-toggle="modal" data-target="#add_review_modal">
+                                                            Leave a Review
+                                                        </button>
+                                                        <button type="button" class="d-block my-1 btn btn-sm btn-primary" data-toggle="modal" data-target="#add_message_modal">
+                                                            Write a Mesage
+                                                        </button>
+                                                    <?php else: ?>
+                                                        <a href="<?php echo wp_login_url($_SERVER['REQUEST_URI']); ?>" class="d-block btn btn-sm btn-primary">
+                                                            Login to leave review or message
+                                                        </a>
+                                                    <?php endif; ?>
+                                                </div>
                                             </div>
-                                            <?php if($review_count > 0): ?>
-                                                <div class="my-1">
-                                                    
-                                                    <span class="badge badge-primary"><?php echo $review_average . ' / 5'; ?></span>
-                                                    <small class="ex-small">
-                                                        
-                                                        <?php
-                                                            if($review_count == 1) {
-                                                                echo '1 review';
-                                                            } else {
-                                                                echo $review_count . ' reviews';
-                                                            }
-                                                        ?>
-                                                    </small>
-                                                </div>
-                                            <?php else: ?>
-                                                <div class="my-1">
-                                                    <small class="ex-small">No Review was left.</small>
-                                                </div>
-                                            <?php endif; ?>
                                         </div>
                                     </div>
                                 </div> <!-- Top Tile Ends -->
@@ -354,5 +373,97 @@ $company_saturday_check_out = get_post_meta( get_the_ID(), '_listings_company_de
     </div>
 </div>
 
+<?php if (is_user_logged_in()): ?>
+    <!-- Review Modal -->
+    <div class="modal fade" id="add_review_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Leave a review</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+                <form method="post" action="#" data-url="<?php echo admin_url( 'admin-ajax.php' ); ?>" id="review_form">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="review_title_Field">Title</label>
+                            <input type="text" class="form-control" name="review_title_Field" id="review_title_Field" placeholder="It's Superb" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="review_feedback">Feedback</label>
+                            <textarea class="form-control" name="review_feedback" id="review_feedback" rows="3" required></textarea>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col">
+                                <label for="price_rating_review">Price</label>
+                                <select class="form-control" name="price_rating_review" id="price_rating_review">
+                                    <option>0</option>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                </select>
+                            </div>
+                            <div class="form-group col">
+                                <label for="quality_rating_review">Quality</label>
+                                <select class="form-control" name="quality_rating_review" id="quality_rating_review">
+                                    <option>0</option>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col">
+                                <label for="contact_rating_review">Contact</label>
+                                <select class="form-control" name="contact_rating_review" id="contact_rating_review">
+                                    <option>0</option>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                </select>
+                            </div>
+                            <div class="form-group col">
+                                <label for="general_rating_review">General</label>
+                                <select class="form-control" name="general_rating_review" id="general_rating_review">
+                                    <option>0</option>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" name="listing_id" value="<?php echo get_the_ID(); ?>">
+                        <input type="hidden" name="author_id" value="<?php echo get_current_user_id(); ?>">
+                        <input type="hidden" name="action" value="submit_review">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                    </div>
+                    <script>
+                        // let review_form = document.getElementById('review_form');
+                        // review_form.addEventListener('submit', function () {
+                        //     $event.preventDefault();
+                            // 
+                        //     console.log(data);
+                        // });
+                    </script>
+                </form>
+        </div>
+    </div>
+
+    <!-- Write Message Modal -->
+<?php endif; ?>
 
 <?php wp_footer(); ?>
