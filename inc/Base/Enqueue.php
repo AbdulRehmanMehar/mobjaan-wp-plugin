@@ -36,7 +36,6 @@ class Enqueue
             array(), 
             '5.3.0' 
         );
-        wp_enqueue_script('mobjaanpluginscript', Constants::getPluginURL() . 'assets/js/main.js');
         
     }
 
@@ -62,6 +61,7 @@ class Enqueue
             array(), 
             '5.3.0' 
         );
+        wp_enqueue_script('mobjaanpluginscript', Constants::getPluginURL() . 'assets/js/main.js');
     }
 
 }
