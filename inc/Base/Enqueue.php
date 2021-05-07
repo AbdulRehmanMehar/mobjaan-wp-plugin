@@ -62,6 +62,8 @@ class Enqueue
             '5.3.0' 
         );
         wp_enqueue_script('mobjaanpluginscript', Constants::getPluginURL() . 'assets/js/main.js');
+        wp_enqueue_script('ckeditor', 'https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js');
+        
     }
 
 }
