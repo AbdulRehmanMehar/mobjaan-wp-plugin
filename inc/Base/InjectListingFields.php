@@ -40,8 +40,8 @@ class InjectListingFields
         global $post;
 
         wp_nonce_field( '__mobjaan_listing_cpt_company_details_custom_meta_box', 'listings_cpt_company_details_meta_box_nonce' );
-        $company_first_name = get_post_meta( $post->ID, '_listings_company_details_fname_key', true );
-        $company_last_name = get_post_meta( $post->ID, '_listings_company_details_lname_key', true );
+        // $company_first_name = get_post_meta( $post->ID, '_listings_company_details_fname_key', true );
+        // $company_last_name = get_post_meta( $post->ID, '_listings_company_details_lname_key', true );
         $company_tag_line = get_post_meta( $post->ID, '_listings_company_details_tag_line_key', true );
         // $company_city = get_post_meta( $post->ID, '_listings_company_details_city_key', true );
         $company_address = get_post_meta( $post->ID, '_listings_company_details_address_key', true );
@@ -77,8 +77,8 @@ class InjectListingFields
         $company_saturday_check_out = get_post_meta( $post->ID, '_listings_company_details_saturday_check_out_key', true );
 
         echo "<p><b>General Information</b></p>";
-        $this->generateTextField('First Name', $company_first_name);
-        $this->generateTextField('Last Name', $company_last_name);
+        // $this->generateTextField('First Name', $company_first_name);
+        // $this->generateTextField('Last Name', $company_last_name);
         $this->generateTextField('Tag Line', $company_tag_line);
         echo "<p><b>Contact Information</b></p>";
         $this->generateTextField('Phone', $company_phone);
@@ -125,13 +125,13 @@ class InjectListingFields
             return;
         }
         
-        if (!isset($_POST['mobjaan_listing_cpt_company_First_Name'])) return;
-        $c_fname = $_POST['mobjaan_listing_cpt_company_First_Name'];
-        update_post_meta( $post_id, '_listings_company_details_fname_key', $c_fname);
+        // if (!isset($_POST['mobjaan_listing_cpt_company_First_Name'])) return;
+        // $c_fname = $_POST['mobjaan_listing_cpt_company_First_Name'];
+        // update_post_meta( $post_id, '_listings_company_details_fname_key', $c_fname);
 
-        if (!isset($_POST['mobjaan_listing_cpt_company_Last_Name'])) return;
-        $c_lname = $_POST['mobjaan_listing_cpt_company_Last_Name'];
-        update_post_meta( $post_id, '_listings_company_details_lname_key', $c_lname);
+        // if (!isset($_POST['mobjaan_listing_cpt_company_Last_Name'])) return;
+        // $c_lname = $_POST['mobjaan_listing_cpt_company_Last_Name'];
+        // update_post_meta( $post_id, '_listings_company_details_lname_key', $c_lname);
 
         if (!isset($_POST['mobjaan_listing_cpt_company_Tag_Line'])) return;
         $c_lname = $_POST['mobjaan_listing_cpt_company_Tag_Line'];
