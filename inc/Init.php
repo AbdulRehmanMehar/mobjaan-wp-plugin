@@ -38,8 +38,10 @@ class Init
             Base\Enqueue::class,
             Base\Taxonomy::class,
             Base\Templates::class,
+            Base\FormsSubmission::class,
             Base\InjectReviewFields::class,
             Base\InjectListingFields::class,
+            Base\PreventDashboardAccess::class,
         ];
     }
 
