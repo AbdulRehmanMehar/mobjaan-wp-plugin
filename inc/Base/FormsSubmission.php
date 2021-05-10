@@ -76,7 +76,7 @@ class FormsSubmission
         if (is_user_logged_in())
         {
             $f_name = sanitize_text_field( $_POST['f_name'] );
-            $l_name = sanitize_text_field( $_POST['l_name'] );
+            // $l_name = sanitize_text_field( $_POST['l_name'] );
             $content = sanitize_textarea_field( $_POST['content'] );
             $tag_line = sanitize_text_field( $_POST['tag_line'] );
             $phone = sanitize_text_field( $_POST['phone'] );
@@ -113,7 +113,7 @@ class FormsSubmission
             if (file_exists($file)) {
                 if (getimagesize($file) !== FALSE) { 
                     $args = array(
-                        'post_title' => $f_name . ' ' . $l_name,
+                        'post_title' => $f_name,
                         'post_content' => $content,
                         'post_author' => $author_id,
                         'post_status' => 'publish',
