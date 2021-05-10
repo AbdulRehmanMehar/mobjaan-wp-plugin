@@ -36,7 +36,7 @@ $(document).ready(() => {
     $('#add_lisitng_modal_form').submit(event => {
         event.preventDefault();
         let url = $('#add_lisitng_modal_form').attr('data-url');
-        let content = CKEDITOR.instances['content'].getData();
+        let content = CKEDITOR.instances['content_mobjaan_plugin'].getData();
         
         let params = new FormData(document.getElementById('add_lisitng_modal_form'));
         params.set('content', content)
