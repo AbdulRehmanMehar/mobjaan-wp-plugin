@@ -11,7 +11,7 @@ class Home
 {
     function register() {
 
-        add_action( 'wp_head', array($this, 'injectIt') );
+        // add_action( 'wp_head', array($this, 'injectIt') );
 
     }
 
