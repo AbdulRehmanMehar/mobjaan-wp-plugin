@@ -51,9 +51,11 @@ class Enqueue
         wp_enqueue_style('mobjaanpluginstyle_bootstrap', Constants::getPluginURL() . 'assets/css/bootstrap.min.css');
         wp_enqueue_style('mobjaanpluginstyle_ratingcss', Constants::getPluginURL() . 'assets/css/rating.css');
         wp_enqueue_style('mobjaanpluginstyle_customcss', Constants::getPluginURL() . 'assets/css/client.css');
-        wp_enqueue_script('jquery_custom', 'https://code.jquery.com/jquery-3.6.0.min.js');
-        wp_enqueue_script('popperjs', 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js');
-        wp_enqueue_script('bootstrap', 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js');
+
+        // removed bootstrap 4 scripts due to conflict with the theme
+        // wp_enqueue_script('jquery_custom', 'https://code.jquery.com/jquery-3.6.0.min.js');
+        // wp_enqueue_script('popperjs', 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js');
+        // wp_enqueue_script('bootstrap', 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js');
     
         wp_enqueue_style( 
             'font-awesome-5', 
