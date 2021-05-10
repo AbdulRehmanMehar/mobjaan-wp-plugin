@@ -22,6 +22,7 @@ class InjectListingFields
         add_action('admin_init', array($this, 'registerFileUpload'));
         add_action( 'add_meta_boxes', array($this, 'addMetaBoxes') );
         add_action( 'save_post', array($this, '__mobjaan_listing_cpt_company_details_custom_meta_box'));
+        add_shortcode( 'mobjaan_listings_shortcode', array($this, 'renderListingByShortCode') );
     }
 
     function registerFileUpload()
@@ -249,6 +250,14 @@ class InjectListingFields
     }
 
 
+    function renderListingByShortCode() 
+    {
+        ob_start();
+        require_once (Constants::getPluginPath() . 'templates/standard/template-parts/shortcodes/listing_form.php');
+        return ob_get_clean();
+    }
+
+
     private function generateTextField(string $fieldname, $value)
     {
         $fieldname_name = str_replace(" ", "_", $fieldname);
@@ -301,4 +310,6 @@ class InjectListingFields
             }
         }
     }
+
+
 }
