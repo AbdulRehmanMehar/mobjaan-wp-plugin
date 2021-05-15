@@ -99,9 +99,21 @@ class InjectReviewFields
         $quality_value = get_post_meta( $post->ID, '_review_post_quality_rating_key', true );
         $contact_value = get_post_meta( $post->ID, '_review_post_contact_rating_key', true );
         $general_value = get_post_meta( $post->ID, '_review_post_general_rating_key', true );
+        $rating_review_type = get_post_meta( $post->ID, '_review_post_reivew_type_key', true );
+        
         
         $avg = (($price_value?$price_value:0) + ($quality_value?$quality_value:0) + ($contact_value?$contact_value:0) + ($general_value?$general_value:0)) / 4;
         echo "<p><b>Average</b>: $avg</p>";
+
+
+        echo "<label for='mobjaan_review_type'>Write Review As: </label>
+            <select id='mobjaan_review_type' name='mobjaan_review_type'>
+                <option value='company'>Company</option>
+                <option value='private'>Private</option>
+            </select>
+        
+        "
+
 
         $this->addSelectField('Price', $price_value);
         $this->addSelectField('Quality', $quality_value);
@@ -129,6 +141,12 @@ class InjectReviewFields
         if (!current_user_can( 'edit_post', $post_id )) {
             return;
         }
+
+
+        if (!isset($_POST['mobjaan_review_type']) ) return;
+        $mobjaan_review_type = $_POST['mobjaan_review_type'];
+        update_post_meta( $post_id, '_review_post_reivew_type_key', $mobjaan_review_type);
+
         
         if (!isset($_POST['mobjaan_review_cpt_Price_rating'])) return;
         $price_data = $_POST['mobjaan_review_cpt_Price_rating'];
