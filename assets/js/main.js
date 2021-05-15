@@ -12,22 +12,24 @@ if ($ == undefined) {
 
 jQuery(document).ready(() => {
     let carousel = () => {
-        $('.testimonial.carousel.slide .carousel-indicators li').each((i, el) => {
-            if ($(el).hasClass('active')) {
-                setTimeout(() => {                    
-                    $(el).next().addClass('active');
-                    $('.carousel-inner').children().eq(i).next().addClass('active');
-                    if (!$('.carousel-inner').children().eq(i).next().is('.carousel-item.testimonial-item')) {
-                        $('.carousel-inner').children().first().addClass('active');
-                    }
-                    if (!$(el).next().is('li')) {
-                        $('.testimonial.carousel.slide .carousel-indicators li').first().addClass('active');
-                    }
-                    $(el).removeClass('active');
-                    $('.carousel-inner').children().eq(i).removeClass('active')
-                }, 1000) 
-            }    
-        });
+        if ($('.testimonial.carousel.slide .carousel-indicators li').length > 1) {
+            $('.testimonial.carousel.slide .carousel-indicators li').each((i, el) => {
+                if ($(el).hasClass('active')) {
+                    setTimeout(() => {                    
+                        $(el).next().addClass('active');
+                        $('.carousel-inner').children().eq(i).next().addClass('active');
+                        if (!$('.carousel-inner').children().eq(i).next().is('.carousel-item.testimonial-item')) {
+                            $('.carousel-inner').children().first().addClass('active');
+                        }
+                        if (!$(el).next().is('li')) {
+                            $('.testimonial.carousel.slide .carousel-indicators li').first().addClass('active');
+                        }
+                        $(el).removeClass('active');
+                        $('.carousel-inner').children().eq(i).removeClass('active')
+                    }, 1000) 
+                }    
+            });
+        }
     }
     
     setInterval(carousel, 5000);
