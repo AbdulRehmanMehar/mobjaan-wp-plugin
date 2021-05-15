@@ -177,4 +177,16 @@ get_header();
 
     <?php  endif; ?>
 
+<style>
+    
+.form-group.lp-location-search {
+    display: none !important;
+}
+
+.lp-search-bar {
+    margin: inherit !important;
+    background-color: transparent !important;
+}
+</style>
+
 <?php get_footer(); ?>

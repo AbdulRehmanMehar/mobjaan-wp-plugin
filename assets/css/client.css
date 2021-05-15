@@ -164,12 +164,3 @@ body.loading div.spinner {
     }
   }
   
-
-.form-group.lp-location-search {
-    display: none !important;
-}
-
-.lp-search-bar {
-    margin: inherit !important;
-    background-color: transparent !important;
-}
