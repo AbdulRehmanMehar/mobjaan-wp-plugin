@@ -102,8 +102,14 @@
             </div>
         </div>
 
-       
+    <?php else: ?>
+
+        <div class="my-4">
+            <h6>Nothing found!</h6>
+        </div>
+
     <?php endif; ?>
+
 <?php wp_reset_postdata(); ?>
 
 <style>
