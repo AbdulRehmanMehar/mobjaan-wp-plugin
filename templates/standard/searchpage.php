@@ -104,7 +104,7 @@
 
     <?php else: ?>
 
-        <div class="my-4">
+        <div class="container my-4">
             <h6>Nothing found!</h6>
         </div>
 
