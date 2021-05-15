@@ -25,12 +25,12 @@ jQuery(document).ready(() => {
                     }
                     $(el).removeClass('active');
                     $('.carousel-inner').children().eq(i).removeClass('active')
-                }, 10) 
+                }, 1000) 
             }    
         });
     }
     
-    setInterval(carousel, 2000);
+    setInterval(carousel, 5000);
 
 
     let loader = () => {
