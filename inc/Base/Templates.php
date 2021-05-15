@@ -29,9 +29,15 @@ class Templates
             }
         }
 
+
         if (is_front_page())
         {
             return $this->validateFileAndReturn('templates/standard/home-page.php');
+        }
+
+        if (is_search())
+        {
+            return $this->validateFileAndReturn('templates/standard/searchpage.php');
         }
 
         return $template;
