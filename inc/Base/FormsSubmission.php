@@ -25,6 +25,7 @@ class FormsSubmission
         if (is_user_logged_in()){
             $review_title_Field = sanitize_text_field( $_POST['review_title_Field'] );
             $review_feedback = sanitize_textarea_field( $_POST['review_feedback'] );
+            $rating_review_type = $_POST['rating_review_type'];
             $price_rating_review = $_POST['price_rating_review'];
             $quality_rating_review = $_POST['quality_rating_review'];
             $contact_rating_review = $_POST['contact_rating_review'];
@@ -44,7 +45,8 @@ class FormsSubmission
                     '_review_post_quality_rating_key' => $quality_rating_review,
                     '_review_post_contact_rating_key' => $contact_rating_review,
                     '_review_post_general_rating_key' => $general_rating_review,
-                    '_review_post_listing_id_key' => $listing_id
+                    '_review_post_listing_id_key' => $listing_id,
+                    '_review_post_reivew_type_key' => $rating_review_type,
                 )
             );
 
