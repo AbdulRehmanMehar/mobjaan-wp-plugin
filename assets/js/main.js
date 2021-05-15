@@ -1,5 +1,5 @@
-$(document).ready(() => {
-
+jQuery(document).ready(() => {
+    let $ = jQuery;
     let loader = () => {
         $('body').addClass('loading');
         $('body').html('<div class="spinner large"></div>');
