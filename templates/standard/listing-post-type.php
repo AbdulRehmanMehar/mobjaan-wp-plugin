@@ -16,6 +16,12 @@ $query = new WP_Query(array(
 ));
 if ($query->have_posts()) 
 {
+    $private_reviews_count = 0;
+    $private_reviews_sum = 0;
+
+    $company_reviews_count = 0;
+    $company_reviews_sum = 0;
+
     $review_count = 0; 
     $review_sum = 0;
     while ($query->have_posts()) {
@@ -25,17 +31,44 @@ if ($query->have_posts())
         $quality_value = get_post_meta( $review_id, '_review_post_quality_rating_key', true );
         $contact_value = get_post_meta( $review_id, '_review_post_contact_rating_key', true );
         $general_value = get_post_meta( $review_id, '_review_post_general_rating_key', true );
+        $review_type = get_post_meta( $review_id, '_review_post_reivew_type_key', true );
+
+        if ($review_type == 'private') {
+            $p_avg = (($price_value?$price_value:0) + ($quality_value?$quality_value:0) + ($contact_value?$contact_value:0) + ($general_value?$general_value:0)) / 4;
+            $private_reviews_sum+= $p_avg;
+            $private_reviews_count++;
+        } else if ($review_type == 'company') {
+            $c_avg = (($price_value?$price_value:0) + ($quality_value?$quality_value:0) + ($contact_value?$contact_value:0) + ($general_value?$general_value:0)) / 4;
+            $company_reviews_sum+= $c_avg;
+            $company_reviews_count++;
+        }
+
+
         $avg = (($price_value?$price_value:0) + ($quality_value?$quality_value:0) + ($contact_value?$contact_value:0) + ($general_value?$general_value:0)) / 4;
         $review_sum+= $avg;
         $review_count++;
     }
 
     $review_average = $review_sum / $review_count;
+    if ($company_reviews_count > 0)
+        $company_review_average = $company_reviews_sum / $company_reviews_count;
+    else 
+        $company_review_average = 0;
+    if ($private_reviews_count > 0)
+        $private_review_average = $private_reviews_sum / $private_reviews_count;
+    else 
+        $private_review_average = 0;
 }
 else
 {
     $review_count = 0;
     $review_average = 0;
+
+    $company_reviews_count = 0;
+    $company_review_average = 0;
+
+    $private_reviews_count = 0;
+    $private_review_average = 0;
 }
 wp_reset_postdata();
 
@@ -122,12 +155,18 @@ $company_saturday_check_out = get_post_meta( get_the_ID(), '_listings_company_de
                                             <div class="row">
                                                 <div class="col-md-8 col-sm-12">
                                                     <div class="my-1">
-                                                        <div class="Stars" style="--rating: <?php echo $review_average; ?>" aria-label="Rating"></div>
+                                                        <span class="ex-small">Overall:</span> <div class="Stars" style="--rating: <?php echo $review_average; ?>" aria-label="Rating" title="Overall Rating"></div> <br />
+                                                        <span class="ex-small">By Companies:</span> <div class="Stars" style="--rating: <?php echo $company_review_average; ?>; --star-background: #FF0000;" aria-label="Rating"></div> <br />
+                                                       <span class="ex-small"> By Private Users:</span> <div class="Stars" style="--rating: <?php echo $private_review_average; ?>; --star-background: #336699;" aria-label="Rating"></div> <br />
+
                                                     </div>
+                                                </div>
+
+                                                <div class="col-md-4 col-sm-12 text-left">
                                                     <?php if($review_count > 0): ?>
-                                                        <div class="my-1">
+                                                        <div>
                                                             
-                                                            <span class="badge badge-primary"><?php echo $review_average . ' / 5'; ?></span>
+                                                            <span class="ex-small badge badge-primary"><?php echo number_format((float)$review_average, 2, '.', '') . ' / 5'; ?></span>
                                                             <small class="ex-small">
                                                                 
                                                                 <?php
@@ -140,29 +179,76 @@ $company_saturday_check_out = get_post_meta( get_the_ID(), '_listings_company_de
                                                             </small>
                                                         </div>
                                                     <?php else: ?>
-                                                        <div class="my-1">
+                                                        <div>
                                                             <small class="ex-small">No Review was left.</small>
                                                         </div>
                                                     <?php endif; ?>
-                                                </div>
 
-                                                <div class="col-md-4 col-sm-12 text-left">
-                                                    <?php if (is_user_logged_in()): ?>
-                                                        <button type="button" class="d-block my-1 btn btn-sm btn-primary" data-toggle="modal" data-target="#add_review_modal">
-                                                            Leave a Review
-                                                        </button>
-                                                        <!-- <button type="button" class="d-block my-1 btn btn-sm btn-primary" data-toggle="modal" data-target="#add_message_modal">
-                                                            Write a Mesage
-                                                        </button> -->
+
+
+                                                    <?php if($company_reviews_count > 0): ?>
+                                                        <div>
+                                                            
+                                                            <span class="ex-small badge badge-primary"><?php echo number_format((float)$company_review_average, 2, '.', '') . ' / 5'; ?></span>
+                                                            <small class="ex-small">
+                                                                
+                                                                <?php
+                                                                    if($company_reviews_count == 1) {
+                                                                        echo '1 review';
+                                                                    } else {
+                                                                        echo $company_reviews_count . ' reviews';
+                                                                    }
+                                                                ?>
+                                                            </small>
+                                                        </div>
                                                     <?php else: ?>
-                                                        <a href="<?php echo wp_login_url($_SERVER['REQUEST_URI']); ?>" class="d-block btn btn-sm btn-primary">
-                                                            Login to leave review or message
-                                                        </a>
+                                                        <div>
+                                                            <small class="ex-small">No Review was left.</small>
+                                                        </div>
                                                     <?php endif; ?>
+
+
+                                                    <?php if($private_reviews_count > 0): ?>
+                                                        <div>
+                                                            
+                                                            <span class="ex-small badge badge-primary"><?php echo number_format((float)$private_review_average, 2, '.', '') . ' / 5'; ?></span>
+                                                            <small class="ex-small">
+                                                                
+                                                                <?php
+                                                                    if($private_reviews_count == 1) {
+                                                                        echo '1 review';
+                                                                    } else {
+                                                                        echo $private_reviews_count . ' reviews';
+                                                                    }
+                                                                ?>
+                                                            </small>
+                                                        </div>
+                                                    <?php else: ?>
+                                                        <div>
+                                                            <small class="ex-small">No Review was left.</small>
+                                                        </div>
+                                                    <?php endif; ?>
+
                                                 </div>
+                                            </div>
+
+                                            <div class="text-center">
+                                                <?php if (is_user_logged_in()): ?>
+                                                    <button type="button" class="my-1 btn btn-sm btn-primary" data-toggle="modal" data-target="#add_review_modal">
+                                                        Leave a Review
+                                                    </button>
+                                                    <!-- <button type="button" class="d-block my-1 btn btn-sm btn-primary" data-toggle="modal" data-target="#add_message_modal">
+                                                        Write a Mesage
+                                                    </button> -->
+                                                <?php else: ?>
+                                                    <a href="<?php echo wp_login_url($_SERVER['REQUEST_URI']); ?>" class="btn btn-sm btn-primary">
+                                                        Login to leave review or message
+                                                    </a>
+                                                <?php endif; ?>
                                             </div>
                                         </div>
                                     </div>
+                                    
                                 </div> <!-- Top Tile Ends -->
 
                             </div>
@@ -212,6 +298,7 @@ $company_saturday_check_out = get_post_meta( get_the_ID(), '_listings_company_de
                                                     $quality_value = get_post_meta( $review_id, '_review_post_quality_rating_key', true );
                                                     $contact_value = get_post_meta( $review_id, '_review_post_contact_rating_key', true );
                                                     $general_value = get_post_meta( $review_id, '_review_post_general_rating_key', true );
+                                                    $review_type = get_post_meta( $review_id, '_review_post_reivew_type_key', true );
                                                     $avg = (($price_value?$price_value:0) + ($quality_value?$quality_value:0) + ($contact_value?$contact_value:0) + ($general_value?$general_value:0)) / 4;
                                                     
                                             ?>
@@ -221,8 +308,8 @@ $company_saturday_check_out = get_post_meta( get_the_ID(), '_listings_company_de
                                                                 <div class="carousel-txt">
                                                                     <div class="row">
                                                                         <div class="col">
-                                                                            <h6 class="ex-small">@<?php the_author(); ?></h6>
-                                                                            <div class="Stars" style="--rating: <?php echo $avg; ?>" aria-label="Rating"></div>   
+                                                                            <h6 class="ex-small">@<?php the_author(); ?> (<?php echo $review_type; ?>)</h6>
+                                                                            <div class="Stars" style="--rating: <?php echo $avg; ?>;     --star-background: <?php if($review_type == 'company') {echo '#FF0000';} else if ($review_type == 'private') {echo  '#336699';} else { echo '#fc0';} ?>;      " aria-label="Rating"></div>   
                                                                             <?php the_title( '<h4>', '</h4>'); ?>
                                                                         </div>
                                                                         <div class="col">
@@ -386,6 +473,13 @@ $company_saturday_check_out = get_post_meta( get_the_ID(), '_listings_company_de
             </div>
                 <form method="post" action="#" data-url="<?php echo admin_url( 'admin-ajax.php' ); ?>" id="review_form">
                     <div class="modal-body">
+                        <div class="form-group">
+                            <label for="rating_review_type">Review Type</label>
+                            <select class="form-control" name="rating_review_type" id="rating_review_type">
+                                <option value="company">Company</option>
+                                <option value="private">Private</option>
+                            </select>
+                        </div>
                         <div class="form-group">
                             <label for="review_title_Field">Title</label>
                             <input type="text" class="form-control" name="review_title_Field" id="review_title_Field" placeholder="It's Superb" required>
