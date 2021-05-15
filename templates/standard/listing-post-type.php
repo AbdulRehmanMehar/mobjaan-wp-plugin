@@ -474,7 +474,7 @@ $company_saturday_check_out = get_post_meta( get_the_ID(), '_listings_company_de
                 <form method="post" action="#" data-url="<?php echo admin_url( 'admin-ajax.php' ); ?>" id="review_form">
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="rating_review_type">Review Type</label>
+                            <label for="rating_review_type">Submit As</label>
                             <select class="form-control" name="rating_review_type" id="rating_review_type">
                                 <option value="company">Company</option>
                                 <option value="private">Private</option>

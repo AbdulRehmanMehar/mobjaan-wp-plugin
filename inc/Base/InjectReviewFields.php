@@ -112,7 +112,7 @@ class InjectReviewFields
                 <option value='private'>Private</option>
             </select>
         
-        "
+        ";
 
 
         $this->addSelectField('Price', $price_value);
