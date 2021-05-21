@@ -111,13 +111,4 @@
     <?php endif; ?>
 
 <?php wp_reset_postdata(); ?>
-
-<style>
-.search-page-header .container .col-md-6.col-sm-6.text-right,
-.form-inline.lp-filter-inner {
-    display: none !important;
-}
- 
-</style>
-
 <?php get_footer(); ?>
