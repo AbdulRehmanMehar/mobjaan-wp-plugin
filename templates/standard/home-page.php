@@ -26,8 +26,8 @@ get_header();
 
                 <?php  while(have_posts()):  the_post(); ?>
                     <div class="col-md-4">
-                    
-                        <div class="card my-2 w-100">
+                        
+                        <div class="card my-2 w-100" onclick="window.location.href = ('<?php the_permalink(); ?>');">
                             <?php if(has_post_thumbnail()): ?>
                                 <div class="bg-img" style="background-image: url('<?php echo get_the_post_thumbnail_url(); ?>')">
                                     <a class="view" href="<?php echo get_the_post_thumbnail_url(); ?>" target="_blank">&#128065;</a>
@@ -61,6 +61,7 @@ get_header();
                                     else
                                     {
                                         $review_average = 0;
+                                        $review_count = 0; 
                                     }
                                     wp_reset_postdata();
                                 ?>
@@ -68,26 +69,57 @@ get_header();
                                     <div class="col">
                                         <a href="<?php the_permalink(); ?>"><?php the_title( '<h4 class="mb-0 card-title">', '</h4>'); ?></a>
                                     </div>
-                                    <div class="col">
-                                        <div class="Stars right" style="--rating: <?php echo $review_average; ?>" aria-label="Rating"></div>
+                                    <div class="col" style="text-align: right;">
+                                        <div class="row">
+                                            <div class="col-8">
+                                                <div class="Stars" style="--rating: <?php echo $review_average; ?>" aria-label="Rating"></div>
+                                            </div>
+                                            <div class="col-4">
+                                                <div style="font-size: 12px;">
+                                                    (<?php echo $review_count; ?>)
+                                                    
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                        
+                                        
                                     </div>
 
                                     <div class="col-12">
-                                        <small class="d-block mb-2" style="font-size: 12px;">
+                                        <small class="d-inline-block mb-2" style="font-size: 12px;">
                                             <?php
                                                 $term_list = get_the_terms(get_the_ID(), 'category');
+                                                $location_list = get_the_terms(get_the_ID(), 'mobjaan_plugin_location_taxonomy');
                                                 if ($term_list) 
                                                 {
                                                     $types ='';
                                                     foreach($term_list as $term_single) {
-                                                        $types .= ucfirst('<a href="'.$term_single->slug.'">'.$term_single->name.'</a>'). ', ';
+                                                        $types .= ucfirst('<a href="'.$term_single->slug.'"> <i class="fa fa-list-ul" aria-hidden="true"></i> '.$term_single->name.'</a>'). ', ';
+                                                    }
+                                                    $typesz = rtrim($types, ', ');
+                                                    echo $typesz;
+
+                                                    // if ($location_list) echo ' - ';
+                                                }
+                                            ?>
+                                        </small>  
+
+                                        <small class="d-inline-block mb-2"  style="font-size: 12px;">
+                                            <?php
+                                                $term_list = $location_list;
+                                                // var_dump($term_list);
+                                                if ($term_list) 
+                                                {
+                                                    $types ='';
+                                                    foreach($term_list as $term_single) {
+                                                        $types .= ucfirst('<a href="location/'.$term_single->slug.'"> <i class="fa fa-map-marker" aria-hidden="true"></i> '.$term_single->name.'</a>'). ', ';
                                                     }
                                                     $typesz = rtrim($types, ', ');
                                                     echo $typesz;
                                                 }
                                             ?>
                                         </small>
-                                            
                                         
 
                                         <p class="card-text"><small><?php echo substr(get_the_excerpt(), 0, 84); ?></small></p>
@@ -147,23 +179,23 @@ get_header();
                                                 {
                                                     $types ='';
                                                     foreach($term_list as $term_single) {
-                                                        $types .= ucfirst('<a href="'.$term_single->slug.'">'.$term_single->name.'</a>'). ', ';
+                                                        $types .= ucfirst('<a href="'.$term_single->slug.'">  <i class="fa fa-list-ul" aria-hidden="true"></i> '.$term_single->name.'</a>'). ', ';
                                                     }
                                                     $typesz = rtrim($types, ', ');
                                                     echo $typesz;
                                                 }
                                             ?>
                                         </small>
-                                        <a href="<?php the_permalink(); ?>"><?php the_title( '<h5 class="card-title">', '</h5>'); ?></a>
+                                        <a href="<?php the_permalink(); ?>"><?php the_title( '<h5 class="mt-1 card-title">', '</h5>'); ?></a>
                                     </div>
 
                                     <div class="col"  style="font-size: 11px;">
-                                        <span>&#9819;</span>
+                                        <i class="fa fa-user" aria-hidden="true"></i> 
                                         <span><?php the_author(); ?></span>
                                     </div>
 
                                     <div class="col"  style="font-size: 11px;">
-                                        <span>&#9819;</span>
+                                        <i class="fa fa-calendar-alt" aria-hidden="true"></i> 
                                         <span><?php the_date(); ?></span>
                                     </div>
                                 </div>
@@ -176,17 +208,5 @@ get_header();
         </div>
 
     <?php  endif; ?>
-
-<style>
-    
-.form-group.lp-location-search {
-    display: none !important;
-}
-
-.lp-search-bar {
-    margin: inherit !important;
-    background-color: transparent !important;
-}
-</style>
 
 <?php get_footer(); ?>
