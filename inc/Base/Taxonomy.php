@@ -10,18 +10,22 @@ class Taxonomy
 {
     function register() 
     {
-        add_action( 'init', array($this, 'addTaxonomies'));
+        add_action( 'init', array($this, 'addTaxonomies'), 0);
+        
     }
 
     function addTaxonomies()
     {
-        register_taxonomy( 'mobjaan_plugin_location_taxonomy', array('listings'), [
+        register_taxonomy( 'mobjaan_plugin_location_taxonomy', array('listings'), array(
+            'hierarchical' => true,
             'labels' => [
                 'name' => 'Location',
             ],
-            'show_admin_column' => false,
-            'hierarchical' => true,
-            'rewrite' => false
-        ]);
+            'show_ui' => true,
+            'show_admin_column' => true,
+            'query_var' => true,
+            'rewrite' => array( 'slug' => 'location' ),
+        ));
+        flush_rewrite_rules();
     }
 }
