@@ -18,6 +18,9 @@ class FormsSubmission
         add_action( 'wp_ajax_nopriv_submit_review', array($this, 'submitReview') );
         add_action( 'wp_ajax_submit_listing', array($this, 'submitListing') );
         add_action( 'wp_ajax_nopriv_submit_listing', array($this, 'submitListing') );
+
+        add_action( 'wp_ajax_submit_contact', array($this, 'submitContact') );
+        add_action( 'wp_ajax_nopriv_submit_contact', array($this, 'submitContact') );
     }
 
     function submitReview()
@@ -91,6 +94,11 @@ class FormsSubmission
             $business_address = sanitize_text_field( $_POST['business_address'] );
             $price = sanitize_text_field( $_POST['price'] );
 
+            $location = $_POST['location'];
+            $category = $_POST['category'];
+
+
+
             $Sunday_check_in = $_POST['Sunday_check_in'];
             $Sunday_check_out = $_POST['Sunday_check_out'];
             $Monday_check_in = $_POST['Monday_check_in'];
@@ -148,10 +156,15 @@ class FormsSubmission
                             '_listings_company_details_saturday_check_in_key' => $Saturday_check_in,
                             '_listings_company_details_saturday_check_out_key' => $Saturday_check_out,
                             
-                        )
+                        ),
+                        'tax_input'    => array(
+                            'category'     => array($category),
+                            'mobjaan_plugin_location_taxonomy' => array($location),
+                        ),
                     );
                     $post_ID = wp_insert_post( $args);
                     if ($post_ID) {
+
                         $movefile = wp_handle_upload($_FILES['featured_image'], array('test_form' => false));
                         $filename = $movefile['url'];
                         $parent_post_id = $post_ID;
@@ -183,6 +196,48 @@ class FormsSubmission
         wp_send_json( array(
             'status' => 'error'
         ) );
+        wp_die();
+    }
+
+
+    function submitContact()
+    {
+        $name = sanitize_text_field( $_POST['c_cpt_uname'] );
+        $email = sanitize_email( $_POST['c_cpt_uemail'] );
+        $subject = sanitize_text_field( $_POST['c_cpt_subject'] );
+        $description = sanitize_textarea_field( $_POST['c_cpt_description'] );
+        $listing = $_POST['c_cpt_listin_id'];
+
+        $args = array(
+            'post_title' => $subject,
+            'post_content' => $description,
+            'post_status' => 'publish',
+            'post_type' => 'contact',
+            'meta_input' => array(
+                '_contact_post_listing_id_key' => $listing,
+                '_contact_post_user_name_key' => $name,
+                '_contact_post_user_email_key' => $email,
+            ),
+        );
+
+        $post_ID = wp_insert_post($args);
+
+        if ($post_ID)
+        {
+            $return = array(
+                'status' => 'success',
+                'ID' => $post_ID,
+            );
+
+            wp_send_json( $return );
+            wp_die();
+        }
+
+
+        wp_send_json(array(
+            'status' => 'error',
+        ));
+
         wp_die();
     }
 
