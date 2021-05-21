@@ -11,6 +11,7 @@ if ($ == undefined) {
 }
 
 jQuery(document).ready(() => {
+    let $ = jQuery;
     let carousel = () => {
         if ($('.testimonial.carousel.slide .carousel-indicators li').length > 1) {
             $('.testimonial.carousel.slide .carousel-indicators li').each((i, el) => {
@@ -59,6 +60,33 @@ jQuery(document).ready(() => {
             console.log(data)
             if (data.status == 'success') {
                 alert('Review added Successfully');
+            }else {
+                alert('Something went wrong. Try again later');
+            }
+            window.location.reload();
+        })
+    });
+
+
+    $('#contact_form_submission').submit(event => {
+        event.preventDefault();
+        let url = $('#contact_form_submission').attr('data-url');
+
+        let params = new URLSearchParams(new FormData(document.getElementById('contact_form_submission')));
+       loader();
+
+        fetch(url, {
+            method: 'post',
+            body: params,
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data)
+            if (data.status == 'success') {
+                alert('Message submitted Successfully');
             }else {
                 alert('Something went wrong. Try again later');
             }
