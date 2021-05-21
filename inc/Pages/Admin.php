@@ -33,6 +33,7 @@ class Admin
         add_action( 'init', array( $this, 'custom_post_type' )  );
         $this->settings->addPages($this->pages)->withSubPage('Developer')->addSubPages($this->sub_pages)->register();
         add_filter( 'plugin_action_links_' . Constants::getPluginName(), array($this, 'plugin_link_filter') );
+        flush_rewrite_rules();
     }
 
     function initPages() {
@@ -69,7 +70,14 @@ class Admin
                 'capability' => 'manage_options',
                 'menu_slug' => 'edit-tags.php?taxonomy=mobjaan_plugin_location_taxonomy',
                 'parent_slug' => 'mobjaan'
-            )
+            ),
+            array(
+                'page_title' => 'Contact',
+                'menu_title' => 'Contact',
+                'capability' => 'manage_options',
+                'menu_slug' => 'edit.php?post_type=contact',
+                'parent_slug' => 'mobjaan'
+            ),
         );
     }
 
@@ -106,6 +114,11 @@ class Admin
             'show_in_menu' => false
         ] );
 
+        register_post_type( 'contact', [
+            'public' => true, 
+            'label' => 'Contact', 
+            'show_in_menu' => false,
+        ]);
     }
     
     /**
