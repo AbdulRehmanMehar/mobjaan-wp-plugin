@@ -79,6 +79,47 @@
                     <input type="text" class="form-control" name="business_address" id="business_address" aria-describedby="emailHelp" placeholder="Address">
                 </div>
             </div>
+
+            <div class="row">
+                
+                <div class="form-group col">
+                    <label for="category">Category</label>
+                    <select name="category" id="category" class="form-control">
+                        <?php
+                            $terms = get_terms( array(
+                                'taxonomy' => 'category',
+                                'hide_empty' => false,
+                            ));
+                            
+                            // var_dump($terms);
+
+                            foreach($terms as $term) {
+                                echo '<option value="'.$term->term_id.'">'. $term->name .'</option>';
+                            }
+                        ?>
+                    </select>
+                    <!-- <input type="text" class="form-control" name="location" id="location" aria-describedby="emailHelp" placeholder="Address"> -->
+                </div>
+
+                <div class="form-group col">
+                    <label for="location">Location</label>
+                    <select name="location" id="location" class="form-control">
+                        <?php
+                            $terms = get_terms( array(
+                                'taxonomy' => 'mobjaan_plugin_location_taxonomy',
+                                'hide_empty' => false,
+                            ));
+                            
+                            // var_dump($terms);
+
+                            foreach($terms as $term) {
+                                echo '<option value="'.$term->term_id.'">'. $term->name .'</option>';
+                            }
+                        ?>
+                    </select>
+                    <!-- <input type="text" class="form-control" name="location" id="location" aria-describedby="emailHelp" placeholder="Address"> -->
+                </div>
+            </div>
             <div class="form-group">
                 <h4>Pricing and Schedule</h4>
             </div>
