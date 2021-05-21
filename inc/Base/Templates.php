@@ -14,6 +14,7 @@ class Templates
     function register() 
     {
         add_filter( 'template_include', array($this, 'loadTemplate') );
+        add_action( 'pre_get_posts', array($this, 'namespace_add_custom_types') );
     }
 
     function loadTemplate($template)
@@ -50,6 +51,14 @@ class Templates
         if (file_exists($file))
         {
             return $file;
+        }
+    }
+
+    function namespace_add_custom_types( $query ) {
+        if( (is_category() || is_tag() || is_tax() ) && $query->is_archive() && empty( $query->query_vars['suppress_filters'] ) ) {
+          $query->set( 'post_type', array(
+            'post', 'listings'
+            ));
         }
     }
 }
