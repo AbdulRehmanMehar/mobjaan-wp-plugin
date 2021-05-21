@@ -41,7 +41,8 @@ class Init
             Base\FormsSubmission::class,
             Base\InjectReviewFields::class,
             Base\InjectListingFields::class,
-            Base\PreventDashboardAccess::class,
+            Base\InjectContactFields::class,
+            // Base\PreventDashboardAccess::class,
         ];
     }
 
