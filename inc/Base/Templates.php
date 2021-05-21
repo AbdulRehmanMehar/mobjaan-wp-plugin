@@ -21,6 +21,11 @@ class Templates
     {
         global $post;
 
+        if (is_front_page() || is_category() || is_tax())
+        {
+            return $this->validateFileAndReturn('templates/standard/home-page.php');
+        }
+
         if (isset($post)) 
         {
 
@@ -31,10 +36,7 @@ class Templates
         }
 
 
-        if (is_front_page())
-        {
-            return $this->validateFileAndReturn('templates/standard/home-page.php');
-        }
+        
 
         if (is_search())
         {
