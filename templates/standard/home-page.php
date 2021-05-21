@@ -10,8 +10,39 @@ get_header();
 ?>
 
 <?php
+
+    if (is_category()) {
+        $args = array(
+                    'post_type' => array('listings'),
+                    'tax_query' => array(
+                        array(
+                            'taxonomy' => 'category',
+                            'field' => 'name',
+                            'terms' => get_the_category()[0]->name,
+                            'include_children' => true
+                        ),
+                    )
+                );
+    } else if ( is_tax() ) {
+        $args = array(
+                    'post_type' => array('listings'),
+                    'tax_query' => array(
+                        array(
+                            'taxonomy' => 'mobjaan_plugin_location_taxonomy',
+                            'field' => 'name',
+                            'terms' => get_queried_object()->name,
+                            'include_children' => true
+                        ),
+                    )
+                );
+    } else {
+        $args = array(
+            'post_type' => array('listings'),
+        );
+    }
+
     wp_reset_query();
-    query_posts( array('post_type' => array('listings')) );
+    query_posts($args);
 
     if (have_posts()): 
     
@@ -20,8 +51,16 @@ get_header();
             <div class="row">
 
                 <div class="col-12 text-center my-5">
-                    <h3>partner</h3>
-                    <h6 class="strong-0">Our TOP partners for you!</h6>
+                    <?php if (get_queried_object() == NULL): ?>
+                        <h3>partner</h3>
+                        <h6 class="strong-0">Our TOP partners for you!</h6>
+                    <?php elseif (is_category()): ?>
+                        <h3><?php echo get_the_category()[0]->name; ?></h3>
+                        <h6 class="strong-0">Listings in <?php echo get_the_category()[0]->name; ?> and child categories</h6>
+                    <?php elseif (is_tax()): ?>
+                        <h3><?php echo get_queried_object()->name; ?></h3>
+                        <h6 class="strong-0">Listings in <?php echo get_queried_object()->name; ?> and sub locations</h6>
+                    <?php endif; ?>
                 </div>
 
                 <?php  while(have_posts()):  the_post(); ?>
@@ -95,7 +134,7 @@ get_header();
                                                 {
                                                     $types ='';
                                                     foreach($term_list as $term_single) {
-                                                        $types .= ucfirst('<a href="'.$term_single->slug.'"> <i class="fa fa-list-ul" aria-hidden="true"></i> '.$term_single->name.'</a>'). ', ';
+                                                        $types .= ucfirst('<a href="/'.$term_single->slug.'"> <i class="fa fa-list-ul" aria-hidden="true"></i> '.$term_single->name.'</a>'). ', ';
                                                     }
                                                     $typesz = rtrim($types, ', ');
                                                     echo $typesz;
@@ -113,7 +152,7 @@ get_header();
                                                 {
                                                     $types ='';
                                                     foreach($term_list as $term_single) {
-                                                        $types .= ucfirst('<a href="location/'.$term_single->slug.'"> <i class="fa fa-map-marker" aria-hidden="true"></i> '.$term_single->name.'</a>'). ', ';
+                                                        $types .= ucfirst('<a href="/location/'.$term_single->slug.'"> <i class="fa fa-map-marker" aria-hidden="true"></i> '.$term_single->name.'</a>'). ', ';
                                                     }
                                                     $typesz = rtrim($types, ', ');
                                                     echo $typesz;
@@ -145,10 +184,16 @@ get_header();
 
     <!-- Other POSTs TYPES -->
     <?php
+        $bool = get_queried_object() == NULL;
         wp_reset_query();
-        query_posts( array('post_type' => array('post')) );
+       
+            $args = array(
+                'post_type' => array('post'),
+            );
+        
+        query_posts(  $args  );
     
-        if (have_posts()): 
+        if (have_posts() && $bool): 
     ?>
 
         <div class="container">
@@ -179,7 +224,7 @@ get_header();
                                                 {
                                                     $types ='';
                                                     foreach($term_list as $term_single) {
-                                                        $types .= ucfirst('<a href="'.$term_single->slug.'">  <i class="fa fa-list-ul" aria-hidden="true"></i> '.$term_single->name.'</a>'). ', ';
+                                                        $types .= ucfirst('<a href="/'.$term_single->slug.'">  <i class="fa fa-list-ul" aria-hidden="true"></i> '.$term_single->name.'</a>'). ', ';
                                                     }
                                                     $typesz = rtrim($types, ', ');
                                                     echo $typesz;
