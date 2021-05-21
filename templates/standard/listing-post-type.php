@@ -132,14 +132,33 @@ $company_saturday_check_out = get_post_meta( get_the_ID(), '_listings_company_de
                                 <div class="container-fluid">
                                     <div class="row">
                                         <div class="col-md-6 col-sm-12">
-                                            <small class="d-block mb-2" style="font-size: 12px;">
+                                            <small class="d-inline-block mb-2" style="font-size: 12px;">
                                                 <?php
                                                     $term_list = get_the_terms(get_the_ID(), 'category');
+                                                    $location_list = get_the_terms(get_the_ID(), 'mobjaan_plugin_location_taxonomy');
                                                     if ($term_list) 
                                                     {
                                                         $types ='';
                                                         foreach($term_list as $term_single) {
-                                                            $types .= ucfirst('<a href="'.$term_single->slug.'">'.$term_single->name.'</a>'). ', ';
+                                                            $types .= ucfirst('<a href="/'.$term_single->slug.'"> <i class="fa fa-list-ul" aria-hidden="true"></i> '.$term_single->name.'</a>'). ', ';
+                                                        }
+                                                        $typesz = rtrim($types, ', ');
+                                                        echo $typesz;
+
+                                                        // if ($location_list) echo ' - ';
+                                                    }
+                                                ?>
+                                            </small>  
+
+                                            <small class="d-inline-block mb-2"  style="font-size: 12px;">
+                                                <?php
+                                                    $term_list = $location_list;
+                                                    // var_dump($term_list);
+                                                    if ($term_list) 
+                                                    {
+                                                        $types ='';
+                                                        foreach($term_list as $term_single) {
+                                                            $types .= ucfirst('<a href="/location/'.$term_single->slug.'"> <i class="fa fa-map-marker" aria-hidden="true"></i> '.$term_single->name.'</a>'). ', ';
                                                         }
                                                         $typesz = rtrim($types, ', ');
                                                         echo $typesz;
@@ -273,15 +292,18 @@ $company_saturday_check_out = get_post_meta( get_the_ID(), '_listings_company_de
 
                             <?php if($review_count > 0): ?>
 
-                                
+                                <h3> <?php echo $review_count; ?> Review<?php if ($review_count > 1) {echo "s";} ?> for Service</h3>
                                 <div class="card my-4 w-100">
                                     <div class="card-body">
+                                        <!-- <div class="col-md-8 offset-md-2">
+                                            <h3>Reviews</h3>
+                                        </div> -->
                                         <div id="carouselExampleIndicators" class="testimonial carousel slide" data-ride="carousel">
-                                            <ol class="carousel-indicators">
+                                            <!-- <ol class="carousel-indicators">
                                                 <?php for($i=0; $i < $review_count; $i++): ?>
                                                     <li data-target="#carouselExampleIndicators" data-slide-to="<?php echo $i; ?>" <?php echo ($i == 0 ? "class='active'" : "") ?> ></li>
                                                 <?php endfor; ?>
-                                            </ol>
+                                            </ol> -->
                                             <div class="carousel-inner">
                                             <?php
                                 
@@ -302,34 +324,45 @@ $company_saturday_check_out = get_post_meta( get_the_ID(), '_listings_company_de
                                                     $avg = (($price_value?$price_value:0) + ($quality_value?$quality_value:0) + ($contact_value?$contact_value:0) + ($general_value?$general_value:0)) / 4;
                                                     
                                             ?>
-                                                <div class="carousel-item testimonial-item <?php echo ($count == 0 ? 'active': ''); ?>">
-                                                    <div class="col-md-6 offset-md-3">
-                                                        
-                                                                <div class="carousel-txt">
-                                                                    <div class="row">
-                                                                        <div class="col">
-                                                                            <h6 class="ex-small">@<?php the_author(); ?> (<?php echo $review_type; ?>)</h6>
-                                                                            <div class="Stars" style="--rating: <?php echo $avg; ?>;     --star-background: <?php if($review_type == 'company') {echo '#FF0000';} else if ($review_type == 'private') {echo  '#336699';} else { echo '#fc0';} ?>;      " aria-label="Rating"></div>   
-                                                                            <?php the_title( '<h4>', '</h4>'); ?>
-                                                                        </div>
-                                                                        <div class="col">
-                                                                            <p class="ex-small">
-                                                                                <span class="d-block my-1">
-                                                                                    <span class="d-inline-block mx-2">  <span style="width: 20px">Price:</span> <span class="badge badge-secondary"><?php echo $price_value . ' / 5'; ?></span></span>
-                                                                                    <span class="d-inline-block mx-4">  <span style="width: 20px">Quality:</span> <span class="badge badge-secondary"><?php echo $quality_value . ' / 5'; ?></span></span>
-                                                                                </span>
-                                                                                <span class="d-block my-1">
-                                                                                    <span class="d-inline-block mx-2">  <span style="width: 20px">Contact:</span> <span class="badge badge-secondary"><?php echo $contact_value . ' / 5'; ?></span></span>
-                                                                                    <span class="d-inline-block mx-2">  <span style="width: 20px">General:</span> <span class="badge badge-secondary"><?php echo $general_value . ' / 5'; ?></span></span>
-                                                                                </span>
-                                                                            </p>
+                                                <div class="<?php if ($count == 0) { echo "mb-5"; } else { echo "my-5"; } ?>">
+                                                    <div class="col-md-8 offset-md-2">
+                                                                <!-- <img src="" alt="" srcset=""> -->
+                                                                <div class="row">
+                                                                    <div class="col-3">
+                                                                        <div class="mt-4 text-right">
+
+                                                                            <?php echo get_avatar(  get_the_author_meta('ID'), 100);?>
                                                                         </div>
                                                                     </div>
+                                                                    <div class="col-9">
 
-                                                                    <p class="testimonial-txt ex-small"><?php echo get_the_content(); ?></p>
                                                                     
+                                                                            <div class="carousel-txt">
+                                                                                <div class="row">
+                                                                                    <div class="col">
+                                                                                        <h6 class="ex-small">@<?php the_author(); ?> (<?php echo $review_type; ?>)</h6>
+                                                                                        <div class="Stars" style="--rating: <?php echo $avg; ?>;     --star-background: <?php if($review_type == 'company') {echo '#FF0000';} else if ($review_type == 'private') {echo  '#336699';} else { echo '#fc0';} ?>;      " aria-label="Rating"></div>   
+                                                                                        <?php the_title( '<h4>', '</h4>'); ?>
+                                                                                    </div>
+                                                                                    <div class="col">
+                                                                                        <p class="ex-small">
+                                                                                            <span class="d-block my-1">
+                                                                                                <span class="d-inline-block mx-2">  <span style="width: 20px">Price:</span> <span class="badge badge-secondary"><?php echo $price_value . ' / 5'; ?></span></span>
+                                                                                                <span class="d-inline-block mx-4">  <span style="width: 20px">Quality:</span> <span class="badge badge-secondary"><?php echo $quality_value . ' / 5'; ?></span></span>
+                                                                                            </span>
+                                                                                            <span class="d-block my-1">
+                                                                                                <span class="d-inline-block mx-2">  <span style="width: 20px">Contact:</span> <span class="badge badge-secondary"><?php echo $contact_value . ' / 5'; ?></span></span>
+                                                                                                <span class="d-inline-block mx-2">  <span style="width: 20px">General:</span> <span class="badge badge-secondary"><?php echo $general_value . ' / 5'; ?></span></span>
+                                                                                            </span>
+                                                                                        </p>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <p class="testimonial-txt ex-small"><?php echo get_the_content(); ?></p>
+                                                                                
+                                                                            </div>
+                                                                    </div>
                                                                 </div>
-                                                        
                                                     </div>
                                                 </div>
                                             
@@ -349,6 +382,37 @@ $company_saturday_check_out = get_post_meta( get_the_ID(), '_listings_company_de
                         </div>
 
                         <div class="col-md-3 col-sm-12">
+                            <div class="card my-4 w-100">
+                                <div class="card-body">
+                                    <form action="#" method="post" id="contact_form_submission" data-url="<?php echo admin_url( 'admin-ajax.php' ); ?>">
+                                        
+                                        <div class="form-group">
+                                            <label for="c_cpt_uname">Name</label>
+                                            <input type="text" class="form-control" name="c_cpt_uname" id="c_cpt_uname" aria-describedby="emailHelp" placeholder="Abdul Rehman" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="c_cpt_uemail">Email</label>
+                                            <input type="email" class="form-control" name="c_cpt_uemail" id="c_cpt_uemail" aria-describedby="emailHelp" placeholder="mehars.6925@gmail.com" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="c_cpt_subject">Subject</label>
+                                            <input type="text" class="form-control" name="c_cpt_subject" id="c_cpt_subject" aria-describedby="emailHelp" placeholder="I need information" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="c_cpt_description">Description</label>
+                                            <textarea class="form-control" id="c_cpt_description" name="c_cpt_description" rows="3" placeholder="Description goes here..."></textarea>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <input type="hidden" name="action" value="submit_contact">
+                                            <input type="hidden" name="c_cpt_listin_id" value="<?php echo get_the_ID(); ?>">
+                                            <button type="submit" class="form-control btn btn-info">Submit</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div><!-- Contact Form -->
+
+
                             <?php if ($major_check_show_contact_info_tab): ?>
                                 <div class="card my-4 w-100">
                                     <div class="card-body">
