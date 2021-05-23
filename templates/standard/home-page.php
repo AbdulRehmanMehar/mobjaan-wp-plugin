@@ -254,4 +254,42 @@ get_header();
 
     <?php  endif; ?>
 
+<script>
+let searchbar = $('.lp-search-bar')[0];
+    searchbar.innerHTML = (`
+        <form>
+            <div class="row">
+                <div class="col">
+                    <input type="text" name="listing" class="form-control" placeholder="Listing" required>
+                </div>
+                <div class="col">
+                    <select name="location" class="form-control">
+                        <option selected value="">Location</option>
+                        <?php
+                            $terms = get_terms( array(
+                                'taxonomy' => 'mobjaan_plugin_location_taxonomy',
+                                'hide_empty' => true,
+                            ));
+                            
+                            foreach($terms as $term) {
+                                echo '<option value="'.$term->term_id.'">'. $term->name .'</option>';
+                            }
+                        ?>
+                    </select>
+                </div>
+
+                <div class="col">
+                    <input type="hidden" name="lp_s_tag" id="lp_s_tag">
+                    <input type="hidden" name="lp_s_cat" id="lp_s_cat">
+                    <input type="hidden" name="s" value="home">
+                    <input type="hidden" name="post_type" value="listings">	
+
+                    <button type="submit" class="btn btn-info form-control"><i class="fa fa-search"></i> Search</button>
+                </div>
+            </div>
+        </form>
+    `);
+</script>
+
+
 <?php get_footer(); ?>
