@@ -15,12 +15,16 @@ class Templates
     {
         add_filter( 'template_include', array($this, 'loadTemplate') );
         add_action( 'pre_get_posts', array($this, 'namespace_add_custom_types') );
+        add_action( 'after_setup_theme',    array( $this, 'addSearchSupport' ), 11 );
+        
+
     }
 
     function loadTemplate($template)
     {
         global $post;
 
+        
         if (is_front_page() || is_category() || is_tax())
         {
             return $this->validateFileAndReturn('templates/standard/home-page.php');
@@ -35,7 +39,7 @@ class Templates
             }
         }
 
-
+        
         
 
         if (is_search())
@@ -62,5 +66,10 @@ class Templates
             'post', 'listings'
             ));
         }
+    }
+
+    function addSearchSupport()
+    {
+        add_theme_support('html5', array('search-form'));
     }
 }
